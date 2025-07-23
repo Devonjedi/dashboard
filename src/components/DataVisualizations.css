@@ -1,0 +1,133 @@
+.data-visualizations {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-selector {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-selector button {
+  padding: 0.5rem 1rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.chart-selector button.active {
+  background-color: #0277bd;
+  color: white;
+  border-color: #0277bd;
+}
+
+.chart-selector button:hover:not(.active) {
+  background-color: #e0e0e0;
+}
+
+.chart-container {
+  margin-bottom: 2rem;
+}
+
+.chart-container h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #333;
+}
+
+.chart-insight {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  color: #666;
+  font-style: italic;
+}
+
+.chart-wrapper {
+  height: 400px;
+  margin: 0 auto;
+}
+
+.dual-chart {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.chart-half {
+  flex: 1;
+  min-width: 300px;
+}
+
+.chart-explanation {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.chart-explanation h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.chart-explanation ul {
+  padding-left: 1.5rem;
+}
+
+.chart-explanation li {
+  margin-bottom: 0.5rem;
+}
+
+.chart-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.chart-controls h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.toggle-charts-button {
+  background-color: #0277bd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toggle-charts-button:hover {
+  background-color: #015f92;
+}
+
+.toggle-charts-button.active {
+  background-color: #015f92;
+}
+
+@media (max-width: 768px) {
+  .chart-selector {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chart-selector button {
+    width: 100%;
+  }
+
+  .dual-chart {
+    flex-direction: column;
+  }
+}

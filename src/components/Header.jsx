@@ -1,8 +1,14 @@
-export default function Header({ title = "Marvel Characters Dashboard" }) {
+import './Header.css'
+
+function Header({ title }) {
   return (
-    <header className="header">
+    <header className="app-header">
       <h1>{title}</h1>
-      <p>Explore the Marvel Universe with our interactive dashboard</p>
+      <p className="subtitle">
+        Explore breweries across the United States and discover new places to enjoy craft beer.
+      </p>
     </header>
-  );
+  )
 }
+
+export default Header

@@ -1,149 +1,115 @@
-import { useState } from 'react';
+import { useState } from 'react'
+import './Controls.css'
 
-export default function Controls({
+function Controls({
   search,
   onSearch,
-  seriesFilter,
-  onFilter,
-  data,
-  comicsRange,
-  onComicsRangeChange,
+  stateFilter,
+  onStateFilter,
+  typeFilter,
+  onTypeFilter,
+  states,
+  types,
   sortOrder,
   onSortChange,
   viewType,
   onViewChange
 }) {
-  const [showAdvanced, setShowAdvanced] = useState(false);
-
-  // Extract unique series for dropdown
-  const seriesList = Array.from(
-    new Set(data.flatMap(char =>
-      char.series?.items?.map(s => s.name) || []
-    ))
-  ).sort();
-
-  // Find max comics count for range slider
-  const maxComics = Math.max(
-    ...data.map(char => char.comics?.available || 0),
-    100 // Minimum max value
-  );
+  const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div className="controls">
-      <div className="basic-controls">
-        <div className="search-container">
+    <div className={`controls ${isExpanded ? 'expanded' : ''}`}>
+      <div className="controls-header">
+        <h2>Filters & Controls</h2>
+        <button
+          className="toggle-button"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? 'Hide' : 'Show'} options
+        </button>
+      </div>
+
+      <div className="controls-body">
+        {/* Search */}
+        <div className="control-group">
+          <label htmlFor="search">Search by name or city:</label>
           <input
+            id="search"
             type="text"
-            placeholder="Search characters..."
+            placeholder="Type to search..."
             value={search}
             onChange={(e) => onSearch(e.target.value)}
-            className="search-input"
           />
         </div>
 
-        <div className="filter-container">
+        {/* State Filter */}
+        <div className="control-group">
+          <label htmlFor="state-filter">Filter by state:</label>
           <select
-            value={seriesFilter}
-            onChange={(e) => onFilter(e.target.value)}
-            className="filter-select"
+            id="state-filter"
+            value={stateFilter}
+            onChange={(e) => onStateFilter(e.target.value)}
           >
-            <option value="">All Series</option>
-            {seriesList.map(series => (
-              <option key={series} value={series}>{series}</option>
+            <option value="">All States</option>
+            {states.map(state => (
+              <option key={state} value={state}>{state}</option>
             ))}
           </select>
         </div>
 
-        <div className="view-toggle">
-          <button
-            onClick={() => onViewChange('grid')}
-            className={`view-button ${viewType === 'grid' ? 'active' : ''}`}
+        {/* Type Filter */}
+        <div className="control-group">
+          <label htmlFor="type-filter">Filter by brewery type:</label>
+          <select
+            id="type-filter"
+            value={typeFilter}
+            onChange={(e) => onTypeFilter(e.target.value)}
           >
-            Grid
-          </button>
-          <button
-            onClick={() => onViewChange('list')}
-            className={`view-button ${viewType === 'list' ? 'active' : ''}`}
+            <option value="">All Types</option>
+            {types.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Sort Order */}
+        <div className="control-group">
+          <label htmlFor="sort-order">Sort by:</label>
+          <select
+            id="sort-order"
+            value={sortOrder}
+            onChange={(e) => onSortChange(e.target.value)}
           >
-            List
-          </button>
+            <option value="nameAsc">Name (A-Z)</option>
+            <option value="nameDesc">Name (Z-A)</option>
+            <option value="cityAsc">City (A-Z)</option>
+            <option value="cityDesc">City (Z-A)</option>
+            <option value="stateAsc">State (A-Z)</option>
+            <option value="stateDesc">State (Z-A)</option>
+          </select>
+        </div>
+
+        {/* View Type */}
+        <div className="control-group">
+          <label>View as:</label>
+          <div className="view-toggle">
+            <button
+              className={viewType === 'grid' ? 'active' : ''}
+              onClick={() => onViewChange('grid')}
+            >
+              Grid
+            </button>
+            <button
+              className={viewType === 'list' ? 'active' : ''}
+              onClick={() => onViewChange('list')}
+            >
+              List
+            </button>
+          </div>
         </div>
       </div>
-
-      <button
-        className="advanced-toggle"
-        onClick={() => setShowAdvanced(!showAdvanced)}
-      >
-        {showAdvanced ? 'Hide Advanced Filters' : 'Show Advanced Filters'}
-      </button>
-
-      {showAdvanced && (
-        <div className="advanced-controls">
-          <div className="comics-range">
-            <label>Comics Appearances: {comicsRange[0]} - {comicsRange[1]}</label>
-            <div className="range-inputs">
-              <input
-                type="range"
-                min="0"
-                max={maxComics}
-                value={comicsRange[0]}
-                onChange={(e) => onComicsRangeChange([parseInt(e.target.value), comicsRange[1]])}
-                className="range-slider"
-              />
-              <input
-                type="range"
-                min="0"
-                max={maxComics}
-                value={comicsRange[1]}
-                onChange={(e) => onComicsRangeChange([comicsRange[0], parseInt(e.target.value)])}
-                className="range-slider"
-              />
-            </div>
-          </div>
-
-          <div className="sort-controls">
-            <label>Sort By:</label>
-            <div className="radio-group">
-              <label>
-                <input
-                  type="radio"
-                  name="sort"
-                  checked={sortOrder === 'nameAsc'}
-                  onChange={() => onSortChange('nameAsc')}
-                />
-                Name (A-Z)
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="sort"
-                  checked={sortOrder === 'nameDesc'}
-                  onChange={() => onSortChange('nameDesc')}
-                />
-                Name (Z-A)
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="sort"
-                  checked={sortOrder === 'comicsAsc'}
-                  onChange={() => onSortChange('comicsAsc')}
-                />
-                Comics (Least to Most)
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="sort"
-                  checked={sortOrder === 'comicsDesc'}
-                  onChange={() => onSortChange('comicsDesc')}
-                />
-                Comics (Most to Least)
-              </label>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
-  );
+  )
 }
+
+export default Controls
